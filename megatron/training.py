@@ -370,10 +370,26 @@ def _get_batch(neox_args, tokenizer, keys, data, datatype, label_mask_zero=False
         data=tokens,
         eod_token=neox_args.tokenizer.eod,
         eod_mask_loss=neox_args.eod_mask_loss,
-        sliding_window_width=neox_args.sliding_window_width,
+        sliding_window_width=neox_args.sliding_window_width
     )
 
     # combine loss masks from get_ltor_masks_and_position_ids with loss masks from data
+    #print_rank_0("Tokens: %s" % tokens)
+    #token_list = tokens.tolist()
+    #words = tokenizer.detokenize(token_list)
+    #for word in words:
+    #    print_rank_0(word + "\n")
+    #detokenized_sequences = []
+    #for batch_idx in range(tokens.size(0)):
+        # Extract tokens with mask == 0
+        #tokens_to_detokenize = tokens[batch_idx][loss_mask[batch_idx] == 0].tolist()
+
+        # Detokenize and add to results
+        #detokenized_sequence = tokenizer.detokenize(tokens_to_detokenize)
+        #detokenized_sequences.append(detokenized_sequence)
+
+    #for idx, seq in enumerate(detokenized_sequences):
+        #print(f"Detokenized instructions {idx + 1}: {seq}")
     loss_mask = label_mask.to(loss_mask.dtype) * loss_mask
     return tokens, labels, loss_mask, attention_mask, position_ids
 
